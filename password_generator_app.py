@@ -32,7 +32,8 @@ if "last_password" not in st.session_state:
 # Form per configurare le opzioni
 with st.form("password_form"):
     st.subheader("Configura le impostazioni")
-    length = st.slider("Lunghezza Password", min_value=4, max_value=64, value=16)
+    # Sostituzione dello slider con un input numerico
+    length = st.number_input("Lunghezza Password", min_value=4, max_value=64, value=16, step=1)
     use_uppercase = st.checkbox("Usa Maiuscole", value=True)
     use_lowercase = st.checkbox("Usa Minuscole", value=True)
     use_numbers = st.checkbox("Usa Numeri", value=True)
@@ -43,7 +44,7 @@ with st.form("password_form"):
 # Generazione della password
 if generate_button:
     password = generate_password(
-        length=length,
+        length=int(length),  # Assicura che sia un intero
         use_uppercase=use_uppercase,
         use_lowercase=use_lowercase,
         use_numbers=use_numbers,
@@ -54,22 +55,21 @@ if generate_button:
     st.session_state["last_password"] = password
     st.markdown(f"<p style='font-size: 24px; font-weight: bold; color: #4CAF50;'>{sanitized_password}</p>", unsafe_allow_html=True)
 
-# JavaScript per copiare negli appunti
+# Pulsante per copiare negli appunti
 if st.session_state["last_password"]:
     st.markdown(
-        """
+        f"""
         <button id="copyButton" style="margin-top: 10px; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px;">Copia Password</button>
         <script>
-        document.getElementById("copyButton").addEventListener("click", async function() {
-            try {
-                await navigator.clipboard.writeText(document.getElementById("passwordField").value);
+        document.getElementById("copyButton").addEventListener("click", async function() {{
+            try {{
+                await navigator.clipboard.writeText("{st.session_state['last_password']}");
                 alert("Password copiata!");
-            } catch (err) {
+            }} catch (err) {{
                 alert("Errore durante la copia: " + err);
-            }
-        });
+            }}
+        }});
         </script>
-        <input type="text" id="passwordField" value="{st.session_state['last_password']}" style="position: absolute; left: -9999px;">
         """,
         unsafe_allow_html=True
     )
