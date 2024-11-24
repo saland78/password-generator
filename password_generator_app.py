@@ -58,3 +58,15 @@ if st.session_state["last_password"]:
         # Usa Streamlit per mostrare un messaggio di conferma
         st.write("Password copiata!")
         st.session_state["password_copied"] = True
+
+# Firma
+st.markdown(
+    """
+    <hr>
+    <p style='text-align: center; color: #4CAF50; font-size: 14px;'>
+        <strong>Password Guru</strong> - Generatore di Password Sicure
+    </p>
+    """,
+    unsafe_allow_html=True
+)
+
