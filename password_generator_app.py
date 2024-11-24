@@ -51,22 +51,19 @@ if generate_button:
     st.session_state["last_password"] = password
     st.markdown(f"<p style='font-size: 24px; font-weight: bold; color: #4CAF50;'>{password}</p>", unsafe_allow_html=True)
 
-# Pulsante per copiare negli appunti
+# JavaScript per copiare negli appunti
 if st.session_state["last_password"]:
-    st.button("Copia negli appunti", key="copy_button")
-
-    # JavaScript per copiare la password negli appunti
     st.markdown(
         f"""
+        <input type="text" value="{st.session_state['last_password']}" id="passwordField" style="position: absolute; left: -9999px;">
+        <button id="copyButton" style="margin-top: 10px; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px;">Copia negli appunti</button>
         <script>
-        const copyButton = document.querySelector('button[aria-label="Copia negli appunti"]');
+        const copyButton = document.getElementById('copyButton');
         copyButton.addEventListener('click', function() {{
-            const password = `{st.session_state["last_password"]}`;
-            navigator.clipboard.writeText(password).then(function() {{
-                alert("Password copiata!");
-            }}, function(err) {{
-                alert("Errore durante la copia: " + err);
-            }});
+            const passwordField = document.getElementById('passwordField');
+            passwordField.select();
+            document.execCommand('copy');
+            alert('Password copiata!');
         }});
         </script>
         """,
