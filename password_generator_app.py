@@ -43,7 +43,13 @@ if generate_button:
         use_specials=use_specials
     )
     st.subheader("La tua Password Generata:")
-    st.code(password)
+    # Mostra la password con uno stile più grande
+    st.markdown(f"<p style='font-size: 24px; font-weight: bold; color: #4CAF50;'>{password}</p>", unsafe_allow_html=True)
+    # Pulsante per copiare la password
+    if st.button("Copia negli appunti"):
+        st.code(password)
+        st.session_state["password_copied"] = True  # Salva lo stato
+        st.success("Password copiata negli appunti!")
 
 st.markdown(
     """
