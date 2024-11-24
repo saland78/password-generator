@@ -42,22 +42,10 @@ if generate_button:
         use_numbers=use_numbers,
         use_specials=use_specials
     )
-    st.subheader("La tua Password Generata:")
     # Mostra la password con uno stile più grande
     st.markdown(f"<p style='font-size: 24px; font-weight: bold; color: #4CAF50;'>{password}</p>", unsafe_allow_html=True)
-    # Pulsante per copiare la password
-    if st.button("Copia negli appunti"):
-        st.code(password)
-        st.session_state["password_copied"] = True  # Salva lo stato
-        st.success("Password copiata negli appunti!")
 
-st.markdown(
-    """
-    <style>
-    /* Ottimizzazione per mobile */
-    .css-1aumxhk { padding: 1rem; } /* Riduce i margini laterali */
-    .css-1v0mbdj { font-size: 1rem; } /* Migliora la leggibilità */
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+    # Pulsante per copiare negli appunti
+    if st.button("Copia negli appunti"):
+        st.write(f"**Password Copiata!** {password}")
+        st.session_state["password_copied"] = password
