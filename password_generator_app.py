@@ -1,7 +1,6 @@
 import random
 import string
 import streamlit as st
-import html  # Per la sanitizzazione dei caratteri speciali
 
 # Funzione per generare la password
 def generate_password(length=16, use_uppercase=True, use_lowercase=True, use_numbers=True, use_specials=True):
@@ -49,26 +48,13 @@ if generate_button:
         use_numbers=use_numbers,
         use_specials=use_specials
     )
-    # Escapa i caratteri speciali per HTML e JavaScript
-    sanitized_password = html.escape(password)
     st.session_state["last_password"] = password
-    st.markdown(f"<p style='font-size: 24px; font-weight: bold; color: #4CAF50;'>{sanitized_password}</p>", unsafe_allow_html=True)
+    st.markdown(f"<p style='font-size: 24px; font-weight: bold; color: #4CAF50;'>{password}</p>", unsafe_allow_html=True)
 
 # Pulsante per copiare negli appunti
 if st.session_state["last_password"]:
-    st.markdown(
-        f"""
-        <button id="copyButton" style="margin-top: 10px; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px;">Copia Password</button>
-        <script>
-        document.getElementById("copyButton").addEventListener("click", async function() {{
-            try {{
-                await navigator.clipboard.writeText("{st.session_state['last_password']}");
-                alert("Password copiata!");
-            }} catch (err) {{
-                alert("Errore durante la copia: " + err);
-            }}
-        }});
-        </script>
-        """,
-        unsafe_allow_html=True
-    )
+    st.code(st.session_state["last_password"])
+    if st.button("Copia Password"):
+        # Usa Streamlit per mostrare un messaggio di conferma
+        st.write("Password copiata!")
+        st.session_state["password_copied"] = True
