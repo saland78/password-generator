@@ -1,6 +1,7 @@
 import random
 import string
 import streamlit as st
+import html
 
 # Funzione per generare la password
 def generate_password(length=16, use_uppercase=True, use_lowercase=True, use_numbers=True, use_specials=True):
@@ -48,8 +49,10 @@ if generate_button:
         use_numbers=use_numbers,
         use_specials=use_specials
     )
-    st.session_state["last_password"] = password
-    st.markdown(f"<p style='font-size: 24px; font-weight: bold; color: #4CAF50;'>{password}</p>", unsafe_allow_html=True)
+    # Escapa i caratteri speciali per HTML e JavaScript
+    sanitized_password = html.escape(password)
+    st.session_state["last_password"] = sanitized_password
+    st.markdown(f"<p style='font-size: 24px; font-weight: bold; color: #4CAF50;'>{sanitized_password}</p>", unsafe_allow_html=True)
 
 # JavaScript per copiare negli appunti
 if st.session_state["last_password"]:
