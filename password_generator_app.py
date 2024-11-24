@@ -30,4 +30,28 @@ with st.form("password_form"):
     use_uppercase = st.checkbox("Usa Maiuscole", value=True)
     use_lowercase = st.checkbox("Usa Minuscole", value=True)
     use_numbers = st.checkbox("Usa Numeri", value=True)
-    use_specials = st.checkbox("Usa Caratteri Speciali", value=T
+    use_specials = st.checkbox("Usa Caratteri Speciali", value=True)
+
+    generate_button = st.form_submit_button("Genera Password")
+
+if generate_button:
+    password = generate_password(
+        length=length,
+        use_uppercase=use_uppercase,
+        use_lowercase=use_lowercase,
+        use_numbers=use_numbers,
+        use_specials=use_specials
+    )
+    st.subheader("La tua Password Generata:")
+    st.code(password)
+
+st.markdown(
+    """
+    <style>
+    /* Ottimizzazione per mobile */
+    .css-1aumxhk { padding: 1rem; } /* Riduce i margini laterali */
+    .css-1v0mbdj { font-size: 1rem; } /* Migliora la leggibilità */
+    </style>
+    """,
+    unsafe_allow_html=True
+)
