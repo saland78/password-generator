@@ -26,7 +26,7 @@ st.title("🔐 Generatore di Password Sicure")
 
 # Stato per il messaggio di copia
 if "password_copied" not in st.session_state:
-    st.session_state["password_copied"] = False
+    st.session_state["password_copied"] = True
 
 # Form per configurare le opzioni
 with st.form("password_form"):
