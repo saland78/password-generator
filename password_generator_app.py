@@ -58,15 +58,14 @@ if generate_button:
 if st.session_state["last_password"]:
     st.markdown(
         f"""
+        <input type="text" id="passwordField" value="{st.session_state['last_password']}" style="position: absolute; left: -9999px;">
         <button id="copyButton" style="margin-top: 10px; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px;">Copia Password</button>
         <script>
-        document.getElementById("copyButton").addEventListener("click", async function() {{
-            try {{
-                await navigator.clipboard.writeText("{st.session_state['last_password']}");
-                alert("Password copiata!");
-            }} catch (err) {{
-                alert("Errore durante la copia: " + err);
-            }}
+        document.getElementById("copyButton").addEventListener("click", function() {{
+            const passwordField = document.getElementById("passwordField");
+            passwordField.select();
+            document.execCommand("copy");
+            alert("Password copiata!");
         }});
         </script>
         """,
