@@ -47,5 +47,5 @@ if generate_button:
 
     # Pulsante per copiare negli appunti
     if st.button("Copia negli appunti"):
-        st.write(f"**Password Copiata!** {password}")
         st.session_state["password_copied"] = password
+        st.success("Password copiata!")
