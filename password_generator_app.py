@@ -24,6 +24,11 @@ st.set_page_config(page_title="Generatore di Password", layout="centered")
 
 st.title("🔐 Generatore di Password Sicure")
 
+# Stato per il messaggio di copia
+if "password_copied" not in st.session_state:
+    st.session_state["password_copied"] = False
+
+# Form per configurare le opzioni
 with st.form("password_form"):
     st.subheader("Configura le impostazioni")
     length = st.slider("Lunghezza Password", min_value=4, max_value=64, value=16)
@@ -34,6 +39,7 @@ with st.form("password_form"):
 
     generate_button = st.form_submit_button("Genera Password")
 
+# Generazione della password
 if generate_button:
     password = generate_password(
         length=length,
@@ -42,10 +48,14 @@ if generate_button:
         use_numbers=use_numbers,
         use_specials=use_specials
     )
-    # Mostra la password con uno stile più grande
     st.markdown(f"<p style='font-size: 24px; font-weight: bold; color: #4CAF50;'>{password}</p>", unsafe_allow_html=True)
 
     # Pulsante per copiare negli appunti
     if st.button("Copia negli appunti"):
-        st.session_state["password_copied"] = password
-        st.success("Password copiata!")
+        st.session_state["password_copied"] = True
+        st.session_state["last_password"] = password
+
+# Mostra il messaggio di successo se la password è stata copiata
+if st.session_state["password_copied"]:
+    st.success(f"Password copiata! ({st.session_state['last_password']})")
+    st.session_state["password_copied"] = False  # Resetta lo stato
