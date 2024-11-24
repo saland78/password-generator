@@ -51,24 +51,25 @@ if generate_button:
     )
     # Escapa i caratteri speciali per HTML e JavaScript
     sanitized_password = html.escape(password)
-    st.session_state["last_password"] = sanitized_password
+    st.session_state["last_password"] = password
     st.markdown(f"<p style='font-size: 24px; font-weight: bold; color: #4CAF50;'>{sanitized_password}</p>", unsafe_allow_html=True)
 
 # JavaScript per copiare negli appunti
 if st.session_state["last_password"]:
     st.markdown(
-        f"""
+        """
         <button id="copyButton" style="margin-top: 10px; padding: 8px 12px; background-color: #4CAF50; color: white; border: none; cursor: pointer; font-size: 16px;">Copia Password</button>
         <script>
-        document.getElementById("copyButton").addEventListener("click", async function() {{
-            try {{
-                await navigator.clipboard.writeText("{st.session_state['last_password']}");
+        document.getElementById("copyButton").addEventListener("click", async function() {
+            try {
+                await navigator.clipboard.writeText(document.getElementById("passwordField").value);
                 alert("Password copiata!");
-            }} catch (err) {{
+            } catch (err) {
                 alert("Errore durante la copia: " + err);
-            }}
-        }});
+            }
+        });
         </script>
+        <input type="text" id="passwordField" value="{st.session_state['last_password']}" style="position: absolute; left: -9999px;">
         """,
         unsafe_allow_html=True
     )
